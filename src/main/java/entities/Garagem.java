@@ -22,7 +22,12 @@ public class Garagem {
         garagemVagoes.add(new Vagao(id, capacidadeCarga));
     }
 
-    public void cadastrarTrem(int id){
+    public void cadastrarTrem(int id) throws InvalidParameterException{
+        for(Trem t : garagemTrens){
+            if (t.getId() == id){
+                throw new InvalidParameterException("O ID inserido pertence a outro trem ja cadastrado");
+            }
+        }
         garagemTrens.add(new Trem(id));
     }
 
