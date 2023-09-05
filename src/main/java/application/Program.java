@@ -1,11 +1,9 @@
 package application;
 
 import entities.Garagem;
-import entities.Locomotiva;
-import entities.Trem;
-import entities.Vagao;
 
-import java.sql.SQLOutput;
+import java.security.InvalidParameterException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Program {
@@ -21,49 +19,100 @@ public class Program {
 
         //cria os bagulho inicial
         for(int i = 0; i < ENTIDADES_INICIAIS ; i++){
-            garagem.cadastrarLocomotiva(new Locomotiva(i, PESO_MAXIMO));
-            garagem.cadastrarVagao(new Vagao(i, CAPACIDADE_CARGA));
+            garagem.cadastrarLocomotiva(i, PESO_MAXIMO);
+            garagem.cadastrarVagao(i, CAPACIDADE_CARGA);
         }
 
         boolean repeat = true;
         while(repeat){
             printMenu();
-            switch (sc.next()){
-                case "1":
-                    System.out.println("insira uma id para o seu trem: ");
-                    int idTrem = sc.nextInt();
-                    Trem trem = new Trem(idTrem);
-                    garagem.cadastrarTrem(trem);
+            switch (sc.next()) {
+                case "1" -> {
+                    try {
+                        System.out.println("Insira um identificador para o trem:");
+                        int idTrem = sc.nextInt();
+                        garagem.cadastrarTrem(idTrem);
+                        System.out.println(garagem);
+                    } catch (InvalidParameterException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case "2" -> {
+                    try {
+                        System.out.println("Insira o ID do trem:");
+                        int idTrem = sc.nextInt();
+                        System.out.println("Insira o ID da locomotiva");
+                        int idLocomotiva = sc.nextInt();
+                        garagem.alocarLocomotiva(garagem.getLocomotiva(idLocomotiva), garagem.getTrem(idTrem));
+                        System.out.println(garagem);
+                    } catch (InvalidParameterException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case "3" -> {
+                    try {
+                        System.out.println("Insira o ID do trem:");
+                        int idTrem = sc.nextInt();
+                        System.out.println("Insira o ID do vagao:");
+                        int idVagao = sc.nextInt();
+                        garagem.alocarVagao(garagem.getVagao(idVagao), garagem.getTrem(idTrem));
+                        System.out.println(garagem);
+                    } catch (InvalidParameterException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case "4" -> {
+                    try {
+                        System.out.println("Insira o ID do trem:");
+                        int idTrem = sc.nextInt();
+                        garagem.desacoplarLocomotiva(garagem.getTrem(idTrem));
+                        System.out.println(garagem);
+                    } catch (InvalidParameterException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case "5" -> {
+                    try {
+                        System.out.println("Insira o ID do trem:");
+                        int idTrem = sc.nextInt();
+                        garagem.desacoplarVagao(garagem.getTrem(idTrem));
+                        System.out.println(garagem);
+                    } catch (InvalidParameterException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case "6" -> {
                     System.out.println(garagem);
-                    break;
-                case "2":
-                    System.out.println("id do trem:");
-                    int idTrem3 = sc.nextInt();
-                    System.out.println("id locomotiva: ");
-                    int idLocomotiva = sc.nextInt();
-                    garagem.alocarLocomotiva(garagem.getLocomotiva(idLocomotiva), garagem.getTrem(idTrem3));
-                    System.out.println(garagem);
-                    break;
-                case "3":
-                    System.out.println("id do trem:");
-                    int idTrem2 = sc.nextInt();
-                    System.out.println("id vagao: ");
-                    int idVagao = sc.nextInt();
-                    garagem.alocarVagao(garagem.getVagao(idVagao), garagem.getTrem(idTrem2));
-                    break;
-                case "4":
-                    System.out.println("id do trem:");
-                    int idTrem1 = sc.nextInt();
-                    garagem.desacoplarLocomotiva(garagem.getTrem(idTrem1));
-                    System.out.println(garagem);
-                    break;
-                case "5":
-                    System.out.println("id do trem:");
-                    int idTrem4 = sc.nextInt();
-                    garagem.desacoplarVagao(garagem.getTrem(idTrem4));
-                    System.out.println(garagem);
-                case "0":
-                    repeat = false;
+                }
+                case "7" -> {
+                    try {
+                        System.out.println("Insira o ID do trem:");
+                        int idTrem = sc.nextInt();
+                        garagem.desfazerTrem(garagem.getTrem(idTrem));
+                        System.out.println(garagem);
+                    } catch (InvalidParameterException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case "8" -> {
+                    try {
+                        System.out.println("Insira a ID da unidade: (eg: 'L1', 'V2')");
+                        String input = sc.next().toUpperCase();
+                        if(input.startsWith("L")){
+                            String idChar = String.valueOf(input.charAt(1));
+                            int id = Integer.parseInt(idChar);
+                            System.out.println("Trem alocado: " + garagem.inspecionarLocomotiva(id));
+                        }
+                        if(input.startsWith("V")){
+                            int id = (int) input.charAt(1);
+                            System.out.println("Trem alocado: " + garagem.inspecionarVagao(id));
+                        }
+
+                    } catch (InvalidParameterException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                case "0" -> repeat = false;
             }
         }
     }
@@ -76,6 +125,9 @@ public class Program {
         System.out.println("3 para adicionar vagao");
         System.out.println("4 para remover locomotiva");
         System.out.println("5 para remover vagao");
+        System.out.println("6 para visualizar as garagens");
+        System.out.println("7 para desmembrar um trem");
+        System.out.println("8 para inspecionar unidade");
         System.out.println("0 para sair");
         System.out.print("> ");
     }

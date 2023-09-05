@@ -1,13 +1,15 @@
 package entities;
 
-public class Locomotiva {
+import java.util.Objects;
+
+public class Locomotiva{
 
     private int id;
+    private Trem tremAlocado;
     private double pesoMaximo;
     private int limiteVagoes;
-    private int tremAlocado;
 
-    public Locomotiva(int id, double pesoMaximo) {
+    protected Locomotiva(int id, double pesoMaximo) {
         this.id = id;
         this.pesoMaximo = pesoMaximo;
     }
@@ -16,9 +18,29 @@ public class Locomotiva {
         return id;
     }
 
+    protected Trem getTremAlocado() {
+        return tremAlocado;
+    }
+
+    protected void setTremAlocado(Trem tremAlocado) {
+        this.tremAlocado = tremAlocado;
+    }
+
     @Override
     public String toString() {
         return "L" + Integer.toString(id);
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Locomotiva that = (Locomotiva) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

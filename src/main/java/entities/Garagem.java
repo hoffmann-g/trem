@@ -1,5 +1,6 @@
 package entities;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,95 +12,149 @@ public class Garagem {
 
     public Garagem(){}
 
-    public void cadastrarLocomotiva(Locomotiva locomotiva){
-        garagemLocomotivas.add(locomotiva);
+    public void cadastrarLocomotiva(int id, double pesoMaximo){
+        garagemLocomotivas.add(new Locomotiva(id, pesoMaximo));
     }
 
-    public void cadastrarVagao(Vagao vagao){
-        garagemVagoes.add(vagao);
+    public void cadastrarVagao(int id, double capacidadeCarga){
+        garagemVagoes.add(new Vagao(id, capacidadeCarga));
     }
 
-    public void cadastrarTrem(Trem trem){
-        garagemTrens.add(trem);
+    public void cadastrarTrem(int id){
+        garagemTrens.add(new Trem(id));
     }
 
-    public void alocarLocomotiva(Locomotiva locomotiva, Trem trem){
-        boolean found = false;
-        for(Trem t : garagemTrens){
-            if(t.getId() == trem.getId()){
-                t.addLocomotiva(locomotiva);
-                garagemLocomotivas.remove(locomotiva);
-                found = true;
-            }
+    public void alocarLocomotiva(Locomotiva locomotiva, Trem trem) throws InvalidParameterException{
+        if (!garagemLocomotivas.contains(locomotiva)) {
+            throw new InvalidParameterException("Locomotiva nao encontrada.");
         }
-        if (!found) throw new RuntimeException("locomotiva nao encontrada");
+        if (!trem.getListaVagoes().isEmpty()) {
+            throw new InvalidParameterException("Nao e possivel alocar locomotivas a unidades com vagoes ja acoplados.");
+        }
+        locomotiva.setTremAlocado(trem);
+        trem.addLocomotiva(locomotiva);
+        garagemLocomotivas.remove(locomotiva);
+
+
     }
 
-    public void alocarVagao(Vagao vagao, Trem trem){
-        boolean found = false;
-        for(Trem t : garagemTrens){
-            if(t.equals(trem)){
-                t.addVagao(vagao);
-                garagemVagoes.remove(vagao);
-                found = true;
-            }
+    public void alocarVagao(Vagao vagao, Trem trem) throws InvalidParameterException{
+        if (!garagemVagoes.contains(vagao)) {
+            throw new InvalidParameterException("Vagao nao encontrado.");
         }
-        if (!found) throw new RuntimeException("vagao nao encontrado");
+        if (trem.getListaLocomotivas().isEmpty()){
+            throw new InvalidParameterException("Nao e possivel alocar vagoes a unidades sem locomotivas acopladas.");
+        }
+        vagao.setTremAlocado(trem);
+        trem.addVagao(vagao);
+        garagemVagoes.remove(vagao);
     }
 
-    public void desacoplarLocomotiva(Trem trem){
-        boolean found = false;
-        for(Trem t : garagemTrens){
-            if(t.equals(trem) && t.getListaVagoes().isEmpty()){
-                garagemLocomotivas.add(t.getListaLocomotivas().get(t.getListaLocomotivas().size()-1));
-                t.getListaLocomotivas().remove(t.getListaLocomotivas().size()-1);
-                found = true;
-            }
+    public void desacoplarLocomotiva(Trem trem) throws InvalidParameterException{
+        if (!garagemTrens.contains(trem)) {
+            throw new InvalidParameterException("Trem nao encontrado.");
         }
-        if (!found) throw new RuntimeException("vagao nao encontrado");
+        if (!trem.getListaVagoes().isEmpty()){
+            throw new InvalidParameterException("Nao e possivel desacoplar locomotivas sem antes desacoplar todos os vagoes.");
+        }
+        garagemLocomotivas.add(trem.getListaLocomotivas().get(trem.getListaLocomotivas().size()-1));
+        trem.getListaLocomotivas().remove(trem.getListaLocomotivas().size()-1);
     }
 
     public void desacoplarVagao(Trem trem){
-        boolean found = false;
-        for(Trem t : garagemTrens){
-            if(t.equals(trem)){
-                garagemVagoes.add(t.getListaVagoes().get(t.getListaVagoes().size()-1));
-                t.getListaVagoes().remove(t.getListaVagoes().size()-1);
-                found = true;
-            }
+        if (!garagemTrens.contains(trem)) {
+            throw new InvalidParameterException("Trem nao encontrado.");
         }
-        if (!found) throw new RuntimeException("vagao nao encontrado");
+        garagemVagoes.add(trem.getListaVagoes().get(trem.getListaVagoes().size()-1));
+        trem.getListaVagoes().remove(trem.getListaVagoes().size()-1);
     }
 
-    public Locomotiva getLocomotiva(int id){
+    public Locomotiva getLocomotiva(int id) throws InvalidParameterException {
         for(Locomotiva l : garagemLocomotivas){
             if (l.getId() == id) return l;
         }
-        throw new RuntimeException("locomotiva nao encontrada");
+        throw new InvalidParameterException("Locomotiva nao encontrada.");
     }
 
-    public Vagao getVagao(int id){
+    public Vagao getVagao(int id) throws InvalidParameterException {
         for(Vagao v : garagemVagoes){
             if (v.getId() == id) return v;
         }
-        throw new RuntimeException("vagao nao encontrada");
+        throw new InvalidParameterException("Vagao nao encontrado.");
     }
 
-    public Trem getTrem(int id){
+    public Trem getTrem(int id) throws InvalidParameterException {
         for(Trem t : garagemTrens){
             if (t.getId() == id) return t;
         }
-        throw new RuntimeException("trem nao encontrada");
+        throw new InvalidParameterException("Trem nao encontrado.");
+    }
+
+    @Deprecated
+    public List<String> inspecionarTrem(Trem trem){
+        List<String> info = new ArrayList<>();
+        for (Trem t : garagemTrens){
+            if (t.equals(trem)){
+                info.add(String.valueOf(t.getId()));
+                info.add(String.valueOf(t.getListaVagoes()));
+                info.add(String.valueOf(t.getListaLocomotivas()));
+            }
+        }
+        return info;
+    }
+
+    public Integer inspecionarLocomotiva(int id) throws InvalidParameterException{
+        for(Trem t : garagemTrens) {
+            for(Locomotiva l : t.getListaLocomotivas()){
+                if (l.getId() == id){
+                    return l.getTremAlocado().getId();
+                }
+            }
+        }
+        for(Locomotiva l : garagemLocomotivas){
+            if(l.getId() == id){
+                throw new InvalidParameterException("Unidade nao alocada a nenhum trem");
+            }
+        }
+        throw new InvalidParameterException("Unidade nao encontrada");
+    }
+
+    public int inspecionarVagao(int id) throws InvalidParameterException{
+        for(Trem t : garagemTrens) {
+            for(Vagao v : t.getListaVagoes()){
+                if (v.getId() == id){
+                    return v.getTremAlocado().getId();
+                }
+            }
+        }
+        for(Vagao v : garagemVagoes){
+            if(v.getId() == id){
+                throw new InvalidParameterException("Unidade nao alocada a nenhum trem");
+            }
+        }
+        throw new InvalidParameterException("Unidade nao encontrada");
+    }
+
+    public void desfazerTrem(Trem trem) throws InvalidParameterException{
+        if(garagemTrens.contains(trem)){
+            garagemVagoes.addAll(trem.getListaVagoes());
+            garagemLocomotivas.addAll(trem.getListaLocomotivas());
+            trem.getListaVagoes().clear();
+            trem.getListaLocomotivas().clear();
+            garagemTrens.remove(trem);
+        } else {
+            throw new InvalidParameterException("Trem nao encontrado");
+        }
     }
 
     @Override
     public String toString() {
-        return  "GARAGENS: " +
+        return  "GARAGENS:\n" +
                 "Locomotivas:\n" +
                 garagemLocomotivas +
-                "\ngaragemVagoes:\n" +
+                "\nGaragem de Vagoes:\n" +
                 garagemVagoes +
-                "\ngaragemTrens:\n" +
+                "\nGaragem de Trens:\n" +
                 garagemTrens;
     }
 }

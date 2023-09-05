@@ -10,33 +10,33 @@ public class Trem {
     private List<Locomotiva> listaLocomotivas = new ArrayList<>();
     private List<Vagao> listaVagoes = new ArrayList<>();
 
-    public Trem(int id) {
+    protected Trem(int id) {
         this.id = id;
     }
 
-    public void addLocomotiva(Locomotiva locomotiva){
+    protected void addLocomotiva(Locomotiva locomotiva){
         listaLocomotivas.add(locomotiva);
     }
 
-    public void addVagao(Vagao vagao){
+    protected void addVagao(Vagao vagao){
         listaVagoes.add(vagao);
     }
 
-    public int getId() {
+    protected int getId() {
         return id;
     }
 
-    public List<Locomotiva> getListaLocomotivas() {
+    protected List<Locomotiva> getListaLocomotivas() {
         return listaLocomotivas;
     }
 
-    public List<Vagao> getListaVagoes() {
+    protected List<Vagao> getListaVagoes() {
         return listaVagoes;
     }
 
     @Override
     public String toString() {
-        return "[Id:" + id + " Locomotivas:" + listaLocomotivas + " Vagoes" + listaVagoes + "]";
+        return "[ID: T" + id + " Locomotivas: " + listaLocomotivas + " Vagoes:" + listaVagoes + "]";
     }
 
     @Override
