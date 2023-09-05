@@ -103,7 +103,7 @@ public class Garagem {
         return info;
     }
 
-    public Integer inspecionarLocomotiva(int id) throws InvalidParameterException{
+    public int inspecionarLocomotiva(int id) throws InvalidParameterException{
         for(Trem t : garagemTrens) {
             for(Locomotiva l : t.getListaLocomotivas()){
                 if (l.getId() == id){
