@@ -31,9 +31,9 @@ public class Locomotiva{
         return "L" + Integer.toString(id);
     }
 
-    /*
-    Metodos 'equals' e 'hashCode' sao necessarios para comparar uma locomotiva com outra utilizando
-    seu ID, ao inves de seu pointer na memoria;
+    /**
+     * Metodos 'equals' e 'hashCode' sao necessarios para comparar uma locomotiva com outra utilizando
+     * seu ID, ao inves de seu pointer na memoria;
      */
     @Override
     public boolean equals(Object o) {
@@ -43,6 +43,10 @@ public class Locomotiva{
         return id == that.id;
     }
 
+    /**
+     * Metodos 'equals' e 'hashCode' sao necessarios para comparar uma locomotiva com outra utilizando
+     * seu ID, ao inves de seu pointer na memoria;
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id);

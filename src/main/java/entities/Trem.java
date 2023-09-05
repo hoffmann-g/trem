@@ -39,6 +39,10 @@ public class Trem {
         return "[ID: T" + id + " Locomotivas: " + listaLocomotivas + " Vagoes:" + listaVagoes + "]";
     }
 
+    /**
+     * Metodos 'equals' e 'hashCode' sao necessarios para comparar um trem com outro utilizando
+     * seu ID, ao inves de seu pointer na memoria;
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,6 +51,10 @@ public class Trem {
         return id == trem.id;
     }
 
+    /**
+     * Metodos 'equals' e 'hashCode' sao necessarios para comparar um trem com outro utilizando
+     * seu ID, ao inves de seu pointer na memoria;
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id);

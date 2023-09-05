@@ -30,9 +30,9 @@ public class Vagao{
         return "V" + Integer.toString(id);
     }
 
-    /*
-    Metodos 'equals' e 'hashCode' sao necessarios para comparar um vagao com outro utilizando
-    seu ID, ao inves de seu pointer na memoria;
+    /**
+     * Metodos 'equals' e 'hashCode' sao necessarios para comparar um vagao com outro utilizando
+     * seu ID, ao inves de seu pointer na memoria;
      */
     @Override
     public boolean equals(Object o) {
@@ -42,6 +42,10 @@ public class Vagao{
         return id == vagao.id;
     }
 
+    /**
+     * Metodos 'equals' e 'hashCode' sao necessarios para comparar um vagao com outro utilizando
+     * seu ID, ao inves de seu pointer na memoria;
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id);
