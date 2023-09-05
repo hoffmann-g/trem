@@ -6,8 +6,8 @@ public class Locomotiva{
 
     private int id;
     private Trem tremAlocado;
-    private double pesoMaximo;
-    private int limiteVagoes;
+    private double pesoMaximo; // implementação necessária
+    private int limiteVagoes; // implementação necessária
 
     protected Locomotiva(int id, double pesoMaximo) {
         this.id = id;
@@ -31,6 +31,10 @@ public class Locomotiva{
         return "L" + Integer.toString(id);
     }
 
+    /*
+    Metodos 'equals' e 'hashCode' sao necessarios para comparar uma locomotiva com outra utilizando
+    seu ID, ao inves de seu pointer na memoria;
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

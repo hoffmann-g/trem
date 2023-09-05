@@ -6,7 +6,7 @@ public class Vagao{
 
     private int id;
     private Trem tremAlocado;
-    private double capacidadeCarga;
+    private double capacidadeCarga; // necessita de implementação
 
     protected Vagao(int id, double capacidadeCarga){
         this.id = id;
@@ -30,6 +30,10 @@ public class Vagao{
         return "V" + Integer.toString(id);
     }
 
+    /*
+    Metodos 'equals' e 'hashCode' sao necessarios para comparar um vagao com outro utilizando
+    seu ID, ao inves de seu pointer na memoria;
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

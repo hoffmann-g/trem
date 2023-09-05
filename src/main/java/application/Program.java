@@ -3,7 +3,6 @@ package application;
 import entities.Garagem;
 
 import java.security.InvalidParameterException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Program {
@@ -17,7 +16,6 @@ public class Program {
 
         Garagem garagem = new Garagem();
 
-        //cria os bagulho inicial
         for(int i = 0; i < ENTIDADES_INICIAIS ; i++){
             garagem.cadastrarLocomotiva(i, PESO_MAXIMO);
             garagem.cadastrarVagao(i, CAPACIDADE_CARGA);
@@ -101,11 +99,12 @@ public class Program {
                         if(input.startsWith("L")){
                             String idChar = String.valueOf(input.charAt(1));
                             int id = Integer.parseInt(idChar);
-                            System.out.println("Trem alocado: " + garagem.inspecionarLocomotiva(id));
+                            System.out.println("Unidade alocada ao: T" + garagem.inspecionarLocomotiva(id));
                         }
                         if(input.startsWith("V")){
-                            int id = (int) input.charAt(1);
-                            System.out.println("Trem alocado: " + garagem.inspecionarVagao(id));
+                            String idChar = String.valueOf(input.charAt(1));
+                            int id = Integer.parseInt(idChar);
+                            System.out.println("Unidade alocada ao: T" + garagem.inspecionarVagao(id));
                         }
 
                     } catch (InvalidParameterException e){
@@ -115,10 +114,11 @@ public class Program {
                 case "0" -> repeat = false;
             }
         }
+        System.out.println("#terminated");
     }
 
     public static void printMenu(){
-        System.out.println(" ");
+        System.out.println();
         System.out.println("DIGITE");
         System.out.println("1 para criar trem");
         System.out.println("2 para adicionar locomotiva");
@@ -131,5 +131,4 @@ public class Program {
         System.out.println("0 para sair");
         System.out.print("> ");
     }
-
 }
