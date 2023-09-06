@@ -2,6 +2,7 @@ package entities;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Garagem {
@@ -40,6 +41,7 @@ public class Garagem {
             }
         }
         garagemTrens.add(new Trem(id));
+        Collections.sort(garagemTrens);
     }
 
     /**
@@ -257,7 +259,11 @@ public class Garagem {
         if (garagemTrens.isEmpty()){
             return text + "<vazia>";
         } else {
-            return text + garagemTrens;
+            String tremList = "";
+            for (Trem t : garagemTrens){
+                tremList = tremList.concat(t.toString() + "\n");
+            }
+            return text + tremList;
         }
     }
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Trem {
+public class Trem implements Comparable<Trem>{
 
     private int id;
     private List<Locomotiva> listaLocomotivas = new ArrayList<>();
@@ -22,7 +22,7 @@ public class Trem {
         listaVagoes.add(vagao);
     }
 
-    protected int getId() {
+    protected Integer getId() {
         return id;
     }
 
@@ -58,5 +58,10 @@ public class Trem {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(Trem o) {
+        return this.getId().compareTo(o.getId());
     }
 }
