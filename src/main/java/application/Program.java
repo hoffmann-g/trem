@@ -133,7 +133,7 @@ public class Program {
                                 System.out.println(e.getMessage());
                             }
                         } else if(input.startsWith("V")){
-                            String idChar = input.replace("L", "");
+                            String idChar = input.replace("V", "");
                             int id = Integer.parseInt(idChar);
 
                             try {
