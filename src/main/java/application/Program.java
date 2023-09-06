@@ -28,7 +28,7 @@ public class Program {
             switch (sc.next()) {
                 case "1" -> {
                     try {
-                        System.out.println("Insira um identificador para o trem:");
+                        System.out.println("Insira um ID (int) para o trem:");
                         int idTrem = sc.nextInt();
 
                         garagem.cadastrarTrem(idTrem);
@@ -121,7 +121,7 @@ public class Program {
                 }
                 case "8" -> {
                     try {
-                        System.out.println("Insira a ID da unidade: (eg: 'L1', 'V2')");
+                        System.out.println("Insira o tipo da unidade ('L'/'V') + ID (int): (eg: 'L1', 'V2')");
                         String input = sc.next().toUpperCase();
                         if(input.startsWith("L")){
                             String idChar = input.replace("L", "");

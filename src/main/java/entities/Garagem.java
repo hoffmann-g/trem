@@ -247,8 +247,8 @@ public class Garagem {
 
     @Override
     public String toString() {
-        String text = "\nGARAGENS:\n" +
-                "Locomotivas:\n" +
+        String text = "\nGARAGENS:" +
+                "\nGaragem de Locomotivas:\n" +
                 garagemLocomotivas +
                 "\nGaragem de Vagoes:\n" +
                 garagemVagoes +
