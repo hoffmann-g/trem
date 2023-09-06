@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Program {
 
     private static final double PESO_MAXIMO  = 5;
-    private static final int ENTIDADES_INICIAIS = 10;
+    private static final int ENTIDADES_INICIAIS = 15;
     private static final int CAPACIDADE_CARGA = 6;
     private static final Scanner sc = new Scanner(System.in);
 
@@ -17,7 +17,7 @@ public class Program {
 
         Garagem garagem = new Garagem();
 
-        for(int i = 0; i < ENTIDADES_INICIAIS ; i++){
+        for(int i = 1; i <= ENTIDADES_INICIAIS ; i++){
             garagem.cadastrarLocomotiva(i, PESO_MAXIMO);
             garagem.cadastrarVagao(i, CAPACIDADE_CARGA);
         }
@@ -127,28 +127,19 @@ public class Program {
                             String idChar = input.replace("L", "");
                             int id = Integer.parseInt(idChar);
 
-                            try {
-                                System.out.println("Unidade alocada ao: T" + garagem.inspecionarLocomotiva(id));
-                            } catch (InputMismatchException e){
-                                System.out.println(e.getMessage());
-                            }
+                            System.out.println("Unidade alocada ao: T" + garagem.inspecionarLocomotiva(id));
                         } else if(input.startsWith("V")){
                             String idChar = input.replace("V", "");
                             int id = Integer.parseInt(idChar);
 
-                            try {
-                                System.out.println("Unidade alocada ao: T" + garagem.inspecionarVagao(id));
-                            } catch (InputMismatchException e){
-                                System.out.println(e.getMessage());
-                            }
+                            System.out.println("Unidade alocada ao: T" + garagem.inspecionarVagao(id));
                         } else {
                             System.out.println("O ID inserido nao e valido");
                         }
-
                     } catch (InvalidParameterException e){
                         System.out.println(e.getMessage());
-                    } catch (InputMismatchException e){
-                        System.out.println("Input invalido");
+                    } catch (Exception e) {
+                        System.out.println("O ID inserido nao e invalido");
                         sc.nextLine();
                     }
                 }
